@@ -27,6 +27,7 @@ enum class NovaLicenseStatus {
 data class NovaLicenseResult(
     val status: NovaLicenseStatus,
     val errorMessage: String? = null,
+    val deviceCode: String? = null,
 ) {
     /** True si la app puede abrirse. */
     val allowed: Boolean get() = status == NovaLicenseStatus.VALID

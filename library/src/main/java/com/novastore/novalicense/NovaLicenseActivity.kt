@@ -61,7 +61,7 @@ class NovaLicenseActivity : Activity() {
     }
 
     private fun showLicenseScreen(config: NovaLicenseGuardConfig, result: NovaLicenseResult) {
-        val deviceCode = LicenseChecker.resolveDeviceId(config, NovaLicense.store(this))
+        val deviceCode = result.deviceCode ?: LicenseChecker.resolveDeviceId(config, NovaLicense.store(this))
         setContentView(
             LicenseRequiredView.build(
                 context = this,

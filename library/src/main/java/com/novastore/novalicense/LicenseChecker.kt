@@ -63,14 +63,14 @@ object LicenseChecker {
             is LicenseTransport.Outcome.Ok ->
                 if (outcome.valid) {
                     storage.putLong(KEY_CACHED_AT, nowMillis)
-                    NovaLicenseResult(NovaLicenseStatus.VALID)
+                    NovaLicenseResult(NovaLicenseStatus.VALID, deviceCode = deviceId)
                 } else {
                     storage.remove(KEY_CACHED_AT)
-                    NovaLicenseResult(NovaLicenseStatus.INVALID)
+                    NovaLicenseResult(NovaLicenseStatus.INVALID, deviceCode = deviceId)
                 }
 
             is LicenseTransport.Outcome.Failed ->
-                offlineFallback(storage, config.graceDays, outcome.message, nowMillis)
+                offlineFallback(storage, config.graceDays, outcome.message, nowMillis, deviceId)
         }
     }
 
@@ -83,16 +83,17 @@ object LicenseChecker {
         graceDays: Long,
         errorMessage: String?,
         nowMillis: Long = System.currentTimeMillis(),
+        deviceCode: String? = null,
     ): NovaLicenseResult {
         val cachedAt = storage.getLong(KEY_CACHED_AT)
         if (cachedAt == null) {
-            return NovaLicenseResult(NovaLicenseStatus.OFFLINE, errorMessage)
+            return NovaLicenseResult(NovaLicenseStatus.OFFLINE, errorMessage, deviceCode)
         }
         val age = nowMillis - cachedAt
         return if (age <= graceDays * MILLIS_PER_DAY) {
-            NovaLicenseResult(NovaLicenseStatus.VALID)
+            NovaLicenseResult(NovaLicenseStatus.VALID, deviceCode = deviceCode)
         } else {
-            NovaLicenseResult(NovaLicenseStatus.OFFLINE, errorMessage)
+            NovaLicenseResult(NovaLicenseStatus.OFFLINE, errorMessage, deviceCode)
         }
     }
 }

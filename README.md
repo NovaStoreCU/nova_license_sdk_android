@@ -131,18 +131,38 @@ válida salta a `mainActivity` y se cierra; si no, pinta la pantalla de licencia
 
 ## Uso programático (opcional)
 
-Si prefieres el gate controlado desde tu código en vez del patrón launcher:
+En vez del patrón launcher, controla la licencia desde tu código. Esto te
+permite **decidir qué proteger** (modo premium, trial, protección por
+funciones) y no solo bloquear toda la app:
 
 ```kotlin
 NovaLicense.configure(config)             // una vez, antes de usar el resto
 NovaLicense.checkAsync(this) { result ->  // asíncrono, callback en el hilo principal
-    if (result.allowed) { /* tu app */ }
+    if (result.allowed) {
+        openPremium()          // con licencia: abre todo
+    } else {
+        showMyOwnPaywall()     // sin licencia: tú decides
+    }
 }
 ```
 
 También disponibles: `NovaLicense.check(context)` (síncrono, **no** llamar desde
 el hilo de UI), `NovaLicense.openStore(context)` y
 `NovaLicense.store(context)`.
+
+`NovaLicense.check`/`checkAsync` devuelven un `NovaLicenseResult` con:
+
+| Campo          | Descripción |
+|----------------|-------------|
+| `status`       | `VALID`, `INVALID`, `OFFLINE` o `ERROR`. |
+| `allowed`      | `true` solo si la licencia es válida. |
+| `offline`      | `true` si no hay red y no hay caché fresca. |
+| `errorMessage` | Detalle del error (si lo hay). |
+| `deviceCode`   | Código de activación del dispositivo (muéstralo en tu pantalla). |
+
+> **Ambos estilos usan el mismo backend** (`POST /validate`) y la misma lógica
+> de caché/gracia. Este modo solo te entrega la respuesta para que decidas
+> cuánta parte de tu app proteger.
 
 ## Opciones de configuración
 

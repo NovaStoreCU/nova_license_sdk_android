@@ -18,6 +18,7 @@ class LicenseCheckerTest {
         )
         assertEquals(NovaLicenseStatus.VALID, result.status)
         assertTrue(result.allowed)
+        assertEquals("dev1", result.deviceCode)
         assertNotNull(storage.getLong(LicenseChecker.KEY_CACHED_AT))
     }
 
@@ -43,6 +44,7 @@ class LicenseCheckerTest {
         assertEquals(NovaLicenseStatus.OFFLINE, result.status)
         assertTrue(result.offline)
         assertEquals("network down", result.errorMessage)
+        assertEquals("dev1", result.deviceCode)
     }
 
     @Test
