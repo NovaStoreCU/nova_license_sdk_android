@@ -2,7 +2,7 @@
 
     <application
         android:name=".ExampleApp"
-        android:label="NovaLicense Demo"
+        android:label="SDK Prueba Java"
         android:theme="@android:style/Theme.Material.Light.NoActionBar">
 
         <activity

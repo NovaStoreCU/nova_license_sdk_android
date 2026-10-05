@@ -4,7 +4,9 @@ plugins {
 
 android {
     namespace = "com.novastore.novalicense"
-    compileSdk = 36
+    // 34 (y no 36) para que el AAR lo pueda consumir cualquier proyecto Unity 6
+    // sin pedirle que suba su compileSdk.
+    compileSdk = 34
 
     defaultConfig {
         minSdk = 21
@@ -14,12 +16,6 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
-    }
-}
-
-kotlin {
-    compilerOptions {
-        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11
     }
 }
 

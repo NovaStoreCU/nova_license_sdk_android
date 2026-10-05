@@ -4,25 +4,19 @@ plugins {
 
 android {
     namespace = "com.novastore.example"
-    compileSdk = 36
+    compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.novastore.example"
+        applicationId = "com.novastore.sdktestkotlin"
         minSdk = 21
-        targetSdk = 36
+        targetSdk = 34
         versionCode = 1
-        versionName = "1.0.0"
+        versionName = "1.1.0"
     }
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
-    }
-}
-
-kotlin {
-    compilerOptions {
-        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11
     }
 }
 
